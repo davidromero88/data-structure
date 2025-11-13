@@ -1,3 +1,5 @@
+package modulo1.clase1
+
 fun fibonacci(n: Int): Int {
     // Casos base: F(0)=0, F(1)=1
     if (n <= 1) return n

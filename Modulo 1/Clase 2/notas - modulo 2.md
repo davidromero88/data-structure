@@ -7,22 +7,88 @@ status: "in-progress"
 
 # 🧮 Programación Dinámica (Dynamic Programming)
 
-La **programación dinámica (DP)** es una técnica de diseño de algoritmos usada para **resolver problemas complejos dividiéndolos en subproblemas más pequeños**, **guardando los resultados** de estos subproblemas para **evitar cálculos repetidos**.
+## 💡 La idea central
 
-Se aplica principalmente cuando:
-- El problema tiene **subproblemas superpuestos**.  
-- Tiene una **estructura óptima**: la solución global se construye a partir de soluciones óptimas parciales.
+**Problema:** Algunos algoritmos recursivos repiten los mismos cálculos miles de veces.
+
+**Solución:** Guardar los resultados la primera vez que los calculamos y reutilizarlos.
+
+**Resultado:** Pasar de algoritmos muy lentos (exponenciales) a rápidos (polinómicos).
+
+---
+
+## 📖 Definición formal
+
+La **programación dinámica (DP)** es una técnica para **resolver problemas complejos dividiéndolos en subproblemas más pequeños** y **guardando sus resultados** para evitar recalcularlos.
+
+### ¿Cuándo usar DP?
+
+Necesitas **ambas condiciones:**
+
+1️⃣ **Subproblemas superpuestos**
+→ Los mismos subproblemas aparecen varias veces
+
+2️⃣ **Subestructura óptima**
+→ La solución óptima se construye con soluciones óptimas de subproblemas
+
+---
+
+## 🎓 Resumen para repaso rápido
+
+| Concepto | Explicación |
+|----------|-------------|
+| **¿Qué es DP?** | Técnica para optimizar algoritmos recursivos guardando resultados |
+| **¿Cuándo usarla?** | Cuando hay subproblemas repetidos + subestructura óptima |
+| **Top-Down** | Recursión + caché (memoización) |
+| **Bottom-Up** | Bucle + tabla (tabulación) |
+| **Ganancia** | De O(2ⁿ) exponencial → O(n) o O(n²) polinomial |
 
 ---
 
 ## 🔁 ¿Cómo funciona?
 
-1. **Dividir** el problema en subproblemas más pequeños.  
-2. **Resolver** cada subproblema (recursiva o iterativamente).  
-3. **Guardar (memorizar)** los resultados intermedios.  
-4. **Reutilizar** esos resultados cuando vuelvan a ser necesarios.
+La Programación Dinámica funciona en **cuatro pasos clave:**
+
+### Paso 1: Identificar subproblemas
+Dividir el problema principal en subproblemas más pequeños e independientes que se pueden resolver por separado.
+
+### Paso 2: Resolver subproblemas
+Resolver cada subproblema de manera recursiva (Top-Down) o iterativa (Bottom-Up).
+
+### Paso 3: Almacenar soluciones
+Guardar (memorizar) los resultados de cada subproblema en una estructura de datos (diccionario, tabla, array).
+
+### Paso 4: Reutilizar resultados
+Cuando un subproblema se vuelve a encontrar, usar el resultado almacenado en lugar de recalcularlo.
 
 De este modo, **cada subproblema se resuelve una sola vez**, reduciendo la complejidad de exponencial a polinómica.
+
+## 🎯 ¿Cómo reconocer un problema de DP?
+
+Hacete estas preguntas:
+
+### ❓ Pregunta 1: ¿Se repiten cálculos?
+Si resolvés el problema recursivamente, ¿llamás varias veces a la misma función con los mismos parámetros?
+
+**Ejemplo - Fibonacci:**
+```
+fib(5) llama a fib(4) y fib(3)
+fib(4) llama a fib(3) y fib(2)
+                ↑
+            ¡fib(3) se calcula 2 veces!
+```
+✅ Hay subproblemas superpuestos
+
+### ❓ Pregunta 2: ¿La solución óptima usa soluciones óptimas menores?
+¿Podés construir la mejor solución global combinando las mejores soluciones parciales?
+
+**Ejemplo - Camino más corto:**
+- El camino más corto de A → C pasando por B
+- Es: (camino más corto A → B) + (camino más corto B → C)
+
+✅ Hay subestructura óptima
+
+### 🎯 Si respondiste SÍ a ambas → Usá Programación Dinámica
 
 ---
 
@@ -47,12 +113,17 @@ def fib(n):
 
 ---
 
-✅ Programación Dinámica
------------------------
+## ✅ Dos formas de aplicar DP
 
-### 🧠 Top-Down (Memoization)
+### 🧠 Top-Down (Memoización)
 
-El enfoque **Top-Down** parte del problema general y **va descomponiéndolo recursivamente**, guardando los resultados (memorizando) para no repetirlos.
+**Idea:** "Empiezo del problema grande y voy bajando"
+
+- Usás **recursión** como siempre
+- Agregás un **caché** (diccionario/array) para guardar resultados
+- Antes de calcular, verificás si ya está en el caché
+
+**Ventaja:** Fácil de implementar si ya tenés la versión recursiva
 
 ```python
 # Top-Down con memoization
@@ -65,16 +136,21 @@ def fib_memo(n, memo={}):
     return memo[n]
 ```
 
-- Se **usa recursión**.
-- Se **almacenan resultados** en una estructura (como un diccionario).
-- Complejidad temporal: **O(n)**.
-- Complejidad espacial: **O(n)** (por la pila de recursión y el almacenamiento).
+**Complejidad:**
+- Tiempo: **O(n)** - Cada valor se calcula solo una vez
+- Espacio: **O(n)** - Caché + pila de recursión
 
 ---
 
-### ⚙️ Bottom-Up (Tabulation)
+### ⚙️ Bottom-Up (Tabulación)
 
-El enfoque **Bottom-Up** parte de los **casos base** y **construye la solución iterativamente** hacia arriba.
+**Idea:** "Empiezo de los casos más simples y voy subiendo"
+
+- **NO usás recursión**, usás un bucle
+- Llenás una **tabla (array)** con los resultados desde el principio
+- Construís la solución paso a paso
+
+**Ventaja:** Más eficiente, no hay riesgo de stack overflow
 
 ```python
 # Bottom-Up con tabulación
@@ -88,39 +164,28 @@ def fib_bottom_up(n):
     return dp[n]
 ```
 
-- **No usa recursión**.
-- Se **rellena una tabla (array)** con resultados intermedios.
-- Complejidad temporal: **O(n)**.
-- Complejidad espacial: **O(n)** (puede optimizarse a O(1) usando dos variables).
+**Complejidad:**
+- Tiempo: **O(n)** - Un bucle simple
+- Espacio: **O(n)** - Solo el array (puede optimizarse a O(1) usando dos variables)
 
 ---
 
-📉 Comparación: Top-Down vs Bottom-Up
--------------------------------------
+## 📊 ¿Cuál usar? Top-Down vs Bottom-Up
 
-| Característica | Top-Down (Memoization) | Bottom-Up (Tabulation) |
-|---|---|---|
-| Estrategia | Divide recursivamente desde el problema grande. | Construye iterativamente desde casos base. |
-| Implementación | Recursiva + caché (diccionario o array). | Iterativa + tabla (array). |
-| Complejidad temporal | O(n) | O(n) |
-| Complejidad espacial | O(n) (por recursión) | O(n) (puede optimizarse a O(1)) |
-| Ventaja | Más intuitiva si ya hay una versión recursiva. | Más eficiente en memoria y ejecución. |
-| Desventaja | Riesgo de stack overflow en recursión profunda. | Menos intuitiva en problemas naturalmente recursivos. |
+| Aspecto | Top-Down (Memoización) | Bottom-Up (Tabulación) |
+|---------|------------------------|------------------------|
+| **¿Cómo funciona?** | Recursión + caché | Bucle + tabla |
+| **Dirección** | Del problema grande → casos base | De casos base → problema grande |
+| **Facilidad** | ⭐⭐⭐ Más fácil de implementar | ⭐⭐ Requiere pensar el orden |
+| **Eficiencia** | ⭐⭐ Overhead de recursión | ⭐⭐⭐ Más rápido |
+| **Espacio** | O(n) + pila de llamadas | O(n) optimizable a O(1) |
+| **Cuándo usar** | Cuando ya tenés la versión recursiva | Cuando querés máxima eficiencia |
+| **Riesgo** | Stack overflow con n muy grande | Puede calcular subproblemas innecesarios |
 
----
-
-🎯 Cuándo usar Programación Dinámica
-------------------------------------
-
-Usá DP cuando el problema cumple **ambas condiciones:**
-
-1. **Subproblemas superpuestos**
-   - El problema se puede dividir en subproblemas que **se repiten**.
-   - Ejemplo: Fibonacci, Caminos mínimos, Subconjuntos de suma específica.
-
-2. **Estructura óptima**
-   - La solución óptima global **depende de soluciones óptimas parciales**.
-   - Ejemplo: Mochila (Knapsack), Caminos más cortos (Dijkstra/Bellman-Ford), Longest Common Subsequence (LCS).
+### 🎯 Recomendación práctica:
+1. **Empezá con Top-Down** → Es más fácil de pensar y escribir
+2. **Si funciona bien** → Dejalo así
+3. **Si necesitás más velocidad** → Convertilo a Bottom-Up
 
 ---
 
@@ -173,45 +238,6 @@ Construcción secuencial
 | **Bottom-Up** | Usa iteración y tabulación. |
 | **Condiciones** | Subproblemas superpuestos + estructura óptima. |
 | **Ventaja clave** | Reduce la complejidad de O(2ⁿ) → O(n) o O(n²). |
-
----
-
-## 🔍 Cuándo usar Programación Dinámica
-
-DP se aplica cuando el problema cumple **dos condiciones clave:**
-
-### 1️⃣ Subestructura Óptima
-La solución óptima del problema puede construirse a partir de soluciones óptimas de sus subproblemas.
-
-**Ejemplo:** Camino mínimo en un grafo
-- Divide el problema en caminos del origen a nodos intermedios
-- Y de estos nodos al destino
-- La combinación óptima de sub-caminos da el camino óptimo total
-
-### 2️⃣ Subproblemas Superpuestos
-Los mismos subproblemas se resuelven múltiples veces durante la recursión.
-
-**Ejemplo:** Fibonacci
-- `Fib(n)` requiere `Fib(n-1)` y `Fib(n-2)`
-- `Fib(n-2)` se calcula múltiples veces
-- Sin DP: crecimiento exponencial O(2ⁿ)
-- Con DP: crecimiento lineal O(n)
-
----
-
-## 🎯 Cómo Funciona la Programación Dinámica
-
-### Paso 1: Identificar subproblemas
-Dividir el problema principal en subproblemas más pequeños e independientes.
-
-### Paso 2: Almacenar soluciones
-Resolver cada subproblema y guardar su solución en una tabla o arreglo.
-
-### Paso 3: Construir la solución
-Utilizar las soluciones almacenadas para construir la solución del problema principal.
-
-### Paso 4: Evitar recalculaciones
-Al guardar las soluciones, DP asegura que cada subproblema se resuelva solo una vez, reduciendo el tiempo de cálculo.
 
 ---
 

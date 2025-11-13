@@ -159,6 +159,36 @@ function fibMemo(n, cache = {}) {
 
 ---
 
+## 📝 Resumen para repaso rápido
+
+### Conceptos clave
+| Concepto | Definición | Ejemplo |
+|----------|------------|---------|
+| **Estructura de datos** | Forma de organizar datos en memoria | Array, List, Tree, Hash Map |
+| **Algoritmo** | Secuencia de pasos para resolver un problema | Búsqueda, ordenamiento |
+| **Big O** | Mide cómo crece el tiempo/memoria al crecer los datos | O(1), O(n), O(n²) |
+| **Complejidad temporal** | Cuánto tarda el algoritmo | O(n) = recorrer array |
+| **Complejidad espacial** | Cuánta memoria usa | O(n) = array de n elementos |
+
+### Complejidades más comunes
+```
+O(1)      → Constante    → Acceso directo a array[i]
+O(log n)  → Logarítmica  → Búsqueda binaria
+O(n)      → Lineal       → Recorrer array completo
+O(n log n)→ Cuasi lineal → Merge sort, Quick sort
+O(n²)     → Cuadrática   → Doble bucle anidado
+O(2ⁿ)     → Exponencial  → Fibonacci recursivo sin DP
+```
+
+### Reglas prácticas
+1. **O(1) < O(log n) < O(n) < O(n log n) < O(n²) < O(2ⁿ)**
+2. Big O ignora constantes: `5n = n = O(n)`
+3. Big O toma el término dominante: `n² + n = O(n²)`
+4. Para datos pequeños, medir el tiempo real
+5. Para datos grandes, usar Big O
+
+---
+
 ## 📈 Big-O Complexity Chart
 
 ![Big-O Complexity Chart](./assets/big-o-complexity-chart.png)
@@ -166,6 +196,15 @@ function fibMemo(n, cache = {}) {
 ---
 
 ## 🎯 Ejercicios Prácticos: Selección de Estructuras de Datos
+
+**Objetivo:** Aprender a elegir la estructura de datos correcta según los requisitos del problema.
+
+**Método:** Para cada problema, preguntate:
+1. ¿Qué operaciones necesito hacer? (buscar, insertar, eliminar, etc.)
+2. ¿Con qué frecuencia las hago?
+3. ¿Qué estructura optimiza esas operaciones?
+
+---
 
 ### Ejercicio 1: Lista de años ordenados
 **Problema:** Tenemos una lista de años: 2020, 2021, 2022
@@ -297,27 +336,34 @@ def func7(n):
 
 ## ⚠️ Limitaciones de Big O
 
-La notación Big O **no considera** factores que afectan el rendimiento en la práctica:
+La notación Big O es útil para comparar algoritmos, pero **no lo cuenta todo**. En la práctica, hay factores que afectan el rendimiento:
 
-### 1. Acceso a memoria
-- Tiempo de acceso a caché vs RAM vs disco
-- Localidad de referencia
-- Cache misses
+### 1. Constantes ocultas
+**Big O ignora las constantes.**
 
-### 2. Latencia del hardware
-- Tiempo de procesamiento de instrucciones en CPU
-- Diferencias entre arquitecturas
+**Ejemplo práctico:**
+- Algoritmo A: `5000n` operaciones → O(n)
+- Algoritmo B: `n` operaciones → O(n)
 
-### 3. Costos ocultos del sistema
-- Operaciones del sistema operativo
-- Concurrencia y sincronización
-- Garbage collection
-- Manejo de memoria (malloc/free)
+Ambos son O(n), pero B es **5000 veces más rápido**.
 
-**Ejemplo:** Dos algoritmos con O(n) pueden tener rendimiento muy diferente dependiendo de:
-- Constantes multiplicativas
-- Patrones de acceso a memoria
-- Overhead de operaciones individuales
+### 2. Acceso a memoria
+**No todas las operaciones tardan lo mismo.**
+
+- Leer de caché: ~1 nanosegundo
+- Leer de RAM: ~100 nanosegundos
+- Leer de disco: ~10,000,000 nanosegundos
+
+**Ejemplo:** Un algoritmo que accede a memoria de forma secuencial será mucho más rápido que uno que salta por todos lados (cache misses).
+
+### 3. Tamaño de los datos
+**Big O describe el crecimiento cuando n → ∞**
+
+Para datos pequeños (n < 100), un algoritmo O(n²) puede ser más rápido que uno O(n log n) debido a las constantes.
+
+**Regla práctica:**
+- Big O importa cuando los datos crecen
+- Para datos pequeños, mide el tiempo real
 
 ---
 
@@ -340,9 +386,3 @@ Evaluar y mejorar la fiabilidad de Small Language Models en la resolución de pr
 - Evaluar la precisión del SLM en diferentes escenarios
 - Identificar patrones de fallo
 - Proponer mejoras mediante técnicas de prompting o fine-tuning
-
----
-
-## 📈 Big-O Complexity Chart
-
-![Big-O Complexity Chart](./assets/big-o-complexity-chart.png)
