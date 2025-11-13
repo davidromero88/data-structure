@@ -161,4 +161,4 @@ function fibMemo(n, cache = {}) {
 
 ## 📈 Big-O Complexity Chart
 
-![Big-O Complexity Chart](./assests/big-o-complexity-chart.png)
+![Big-O Complexity Chart](../assets/big-o-complexity-chart.png)
