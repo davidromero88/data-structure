@@ -1,6 +1,3 @@
-function start (){
-  return 'Hello world';
+function star(){
+  
 }
-
-
-console.log(start());
