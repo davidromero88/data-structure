@@ -28,9 +28,22 @@ function fibonacciRecSimple(n) {
   return fibonacciRecSimple(n - 1) + fibonacciRecSimple(n - 2);
 }
 
+// Programación dinámica (tabulación) con arreglo O(n) tiempo, O(n) espacio
+function fibonacciDP(n) {
+  if (n <= 1) return n;
+  const dp = new Array(n + 1);
+  dp[0] = 0;
+  dp[1] = 1;
+  for (let i = 2; i <= n; i++) {
+    dp[i] = dp[i - 1] + dp[i - 2];
+  }
+  return dp[n];
+}
+
 // llamadas
 for (let i = 0; i < 10; i++) {
   console.log(fibonacci(i));
   console.log(fibonacciRec(i));
   console.log(fibonacciRecSimple(i));
+  console.log(fibonacciDP(i));
 }
