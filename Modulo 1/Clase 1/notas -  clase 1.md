@@ -191,7 +191,7 @@ O(2ⁿ)     → Exponencial  → Fibonacci recursivo sin DP
 
 ## 📈 Big-O Complexity Chart
 
-![Big-O Complexity Chart](./assets/big-o-complexity-chart.png)
+![Big-O Complexity Chart](../assets/big-o-complexity-chart.png)
 
 ---
 
